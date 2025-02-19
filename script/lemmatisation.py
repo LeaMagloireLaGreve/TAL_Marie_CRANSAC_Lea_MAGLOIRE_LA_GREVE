@@ -1,39 +1,64 @@
-import sys
 import nltk
-import re
+import spacy
 from nltk.stem import WordNetLemmatizer
-from french_lefff_lemmatizer.french_lefff_lemmatizer import FrenchLefffLemmatizer
+import os
 
-# Télécharger les ressources nécessaires pour NLTK
+# Télécharger les ressources pour WordNetLemmatizer (NLTK)
 nltk.download('wordnet')
 
-# Initialisation des lemmatiseurs
+# Charger les modèles SpaCy
+nlp_fr = spacy.load("fr_core_news_sm")  # Français
+nlp_en = spacy.load("en_core_web_sm")  # Anglais
+
+# Initialisation du lemmatiseur NLTK pour l'anglais
 lemmatizer_en = WordNetLemmatizer()
-lemmatizer_fr = FrenchLefffLemmatizer()
 
-# Vérification des arguments
-if (len(sys.argv) != 4):
-    raise ValueError("Il faut que les arguments soient : python lemmatisation.py [en/fr] input_file output_file")
+def lemmatize_sentence_en(sentence):
+    doc = nlp_en(sentence)  # Traitement avec SpaCy
+    return ' '.join([token.lemma_ for token in doc])
 
-language = sys.argv[1] # récupérer la langue en argument
-input_file = sys.argv[2] # récupérer le fichier d'entrée en argument
-output_file = sys.argv[3] # récupérer le fichier de sortie en argument
+def lemmatize_sentence_fr(sentence):
+    doc = nlp_fr(sentence)  # Traitement avec SpaCy
+    return ' '.join([token.lemma_ for token in doc])
 
-def lemmatize_file(language, input_file, output_file):
-    """Lemmatisation du contenu d'un fichier en fonction de la langue."""
-    if language == 'en':
-        lemmatizer = lemmatizer_en
-    elif language == 'fr':
-        lemmatizer = lemmatizer_fr
-    else:
-        raise ValueError("Langue non prise en charge. Utilisez 'en' ou 'fr'")
-    with open(input_file, 'r', encoding="utf-8") as f_in, open(output_file, 'w') as f_out:
-        for line in f_in:
-            line = line.strip()  # Supprimer les espaces inutiles
-            words = re.findall(r'\b\w+\b', line) # Extraire les mots de la ligne
-            lemmatized_words = [lemmatizer.lemmatize(word) for word in words]  # Lemmatiser les mots en minuscule
-            lemmatized_line = ' '.join(lemmatized_words)  # Joindre les mots en une ligne
-            f_out.write(lemmatized_line + '\n')  # Écrire la ligne lemmatisée dans le fichier de sortie
-    print(f"Lemmatisation terminée. Résultat enregistré dans {output_file}")
+def process_corpus(input_file, output_file, language):
+    with open(input_file, 'r', encoding='utf-8') as infile, open(output_file, 'w', encoding='utf-8') as outfile:
+        for line in infile:
+            line = line.strip()
+            if language == 'en':
+                lemmatized_line = lemmatize_sentence_en(line)
+            elif language == 'fr':
+                lemmatized_line = lemmatize_sentence_fr(line)
+            else:
+                raise ValueError("Langue non supportée. Utilisez 'en' pour l'anglais ou 'fr' pour le français.")
+            outfile.write(lemmatized_line + '\n')
 
-lemmatize_file(language, input_file, output_file)
+def main():
+    corpora = {
+
+        'Emea_test_en': ('Emea_test_500.tok.true.clean.en', 'res/emea_test_500_lemmatized.en', 'en'),
+        'Emea_test_fr': ('Emea_test_500.tok.true.clean.fr', 'res/emea_test_500_lemmatized.fr', 'fr'),
+
+        'Emea_train_en': ('Emea_train_10k.tok.true.clean.en', 'res/emea_train_10k_lemmatized.en', 'en'),
+        'Emea_train_fr': ('Emea_train_10k.tok.true.clean.fr', 'res/emea_train_10k_lemmatized.fr', 'fr'),
+
+        'Europarl_train_en': ('Europarl_train_100k.tok.true.clean.en', 'res/europarl_train_100k_lemmatized.en', 'en'),
+        'Europarl_train_fr': ('Europarl_train_100k.tok.true.clean.fr', 'res/europarl_train_100k_lemmatized.fr', 'fr'),
+
+        'Europarl_dev_en': ('Europarl_dev_3750.tok.true.clean.en', 'res/europarl_dev_3750_lemmatized.en', 'en'),
+        'Europarl_dev_fr': ('Europarl_dev_3750.tok.true.clean.fr', 'res/europarl_dev_3750_lemmatized.fr', 'fr'),
+
+        'Europarl_test_en': ('Europarl_test2_500.tok.true.clean.en', 'res/europarl_test_500_lemmatized.en', 'en'),
+        'Europarl_test_fr': ('Europarl_test2_500.tok.true.clean.fr', 'res/europarl_test_500_lemmatized.fr', 'fr')
+    }
+    
+    for name, (input_file, output_file, lang) in corpora.items():
+        if os.path.exists(input_file):
+            print(f"Traitement du corpus : {name} ({lang})")
+            process_corpus(input_file, output_file, lang)
+            print(f"Fichier sauvegardé : {output_file}")
+        else:
+            print(f"Fichier {input_file} introuvable. Skipping...")
+
+if __name__ == "__main__":
+    main()
