@@ -15,10 +15,12 @@ conda activate env_opennmt`
 
 Ensuite on installe les dépendances avec les commandes : 
 
+```
 pip install --upgrade gensim
 pip install numpy
 conda install pytorch torchvision -c pytorch
 pip install OpenNMT-py
+```
 
 b. Téléchargement et préparation des données
 On télécharge le corpus de test anglais-allemand pour la traduction automatique contenant 10 000 phrases tokenisées avec la commande : 
