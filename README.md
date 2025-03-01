@@ -45,6 +45,7 @@ onmt_build_vocab -config toy_en_de.yaml -n_sample 10000
 ```
 
 Résultat de la commande :
+
 `Corpus corpus_1's weight should be given. We default it to 1 for you.
 [2025-02-23 11:48:29,644 INFO] Counter vocab from 10000 samples.
 [2025-02-23 11:48:29,644 INFO] Build vocab on 10000 transformed examples/corpus.
@@ -60,6 +61,7 @@ onmt_train -config toy_en_de.yaml
 ```
 
 Résultat de la commande :
+
 `[2025-02-23 11:55:46,604 INFO] valid stats calculation
                            took: 29.44715404510498 s.
 [2025-02-23 11:55:46,606 INFO] Train perplexity: 1672.87
@@ -79,6 +81,7 @@ onmt_translate -model toy-ende/run/model_step_1000.pt -src toy-ende/src-test.txt
 ```
 
 On obtient :
+
 `[2025-02-23 11:56:59,577 INFO] PRED SCORE: -1.4455, PRED PPL: 4.24 NB SENTENCES: 2737
 Time w/o python interpreter load/terminate:  22.243698835372925`
 
@@ -89,6 +92,7 @@ python .\src\multi_bleu.pl .\toy-ende\tgt-test.txt .\toy-ende\pred_1000.txt
 ```
 
 On obtient : 
+
 `Reference 1st sentence: Orlando Bloom und Miranda Kerr lieben sich noch immer
 MTed 1st sentence: In der <unk> der <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
 BLEU:  0.081308593710109576`
@@ -121,12 +125,15 @@ b. Tokenisation du corpus Anglais-Français (TRAIN du corpus Europarl)
 source moses.env
 
 - Anglais (TRAIN du corpus Europarl)
+  
 ```../mosesdecoder/scripts/tokenizer/tokenizer.perl  -l en < Europarl_train_10k.en > Europarl_train_10k.tok.en```
 
 - Français (TRAIN du corpus Europarl)
+  
 ```../mosesdecoder/scripts/tokenizer/tokenizer.perl  -l fr < Europarl_train_10k.fr > Europarl_train_10k.tok.fr```
 
-Résultat:
+Résultat :
+
 `Europarl_train_10k.tok.en
 Europarl_train_10k.tok.en`
 
@@ -134,36 +141,45 @@ c. Changement des majuscules en minuscules du corpus Anglais-Français
 1. Apprentissage du modèle de transformation
 
 - Anglais (TRAIN du corpus Europarl)
+  
 ```../../mosesdecoder/scripts/recaser/train-truecaser.perl --model truecase-model.en --corpus Europarl_train_10k.tok.en```
 
 - Français (TRAIN du corpus Europarl)
+  
 ```../../mosesdecoder/scripts/recaser/train-truecaser.perl --model truecase-model.fr --corpus Europarl_train_10k.tok.fr```
 
-Résultat:
+Résultat :
+
 `truecase-model.en
 truecase-model.fr`
 
 2. Transformation des majuscules en minuscules
 
 - Anglais (TRAIN du corpus Europarl)
+  
 ```../../mosesdecoder/scripts/recaser/truecase.perl --model truecase-model.en < Europarl_train_10k.tok.en > Europarl_train_10k.tok.true.en```
 
 - Français (TRAIN du corpus Europarl)
+  
 ```../../mosesdecoder/scripts/recaser/truecase.perl --model truecase-model.fr < Europarl_train_10k.tok.fr > Europarl_train_10k.tok.true.fr```
 
-Résultat:
+Résultat :
+
 `Europarl_train_10k.tok.true.en
 Europarl_train_10k.tok.true.fr`
 
 d. Nettoyage en limitant la longueur des phrases à 80 caractères (TRAIN du corpus Europarl)
 
 - Anglais (corpus Europarl)
+  
 ```../../mosesdecoder/scripts/training/clean-corpus-n.perl Europarl_train_10k.tok.true fr en Europarl_train_10k.tok.true.clean 1 80```
 
 - Français (corpus Europarl)
+  
 ```../../mosesdecoder/scripts/training/clean-corpus-n.perl Europarl_train_10k.tok.true en fr Europarl_train_10k.tok.true.clean 1 80```
 
 Résultat :
+
 `Europarl_train_10k.tok.true.clean.en (wc -l Europarl_train_10k.tok.true.clean.en => 9767 Europarl_train_10k.tok.true.clean.en)
 Europarl_train_10k.tok.true.clean.fr (wc -l Europarl_train_10k.tok.true.clean.fr => 9767 Europarl_train_10k.tok.true.clean.fr)`
 
@@ -174,6 +190,7 @@ On créé le fichier de configuration europarl.yaml et on l'éxécute avec les m
 ```onmt_build_vocab -config europarl.yaml -n_sample 10000```
 
 On obtient : 
+
 `Corpus corpus_1's weight should be given. We default it to 1 for you.
 [2025-02-12 15:00:08,531 INFO] Counter vocab from 10000 samples.
 [2025-02-12 15:00:08,531 INFO] Build vocab on 10000 transformed examples/corpus.
@@ -185,6 +202,7 @@ Etape 2 : Entraînement du modèle
 ```onmt_train -config europarl.yaml```
 
 On obtient : 
+
 `[2025-02-12 15:16:56,850 INFO] Train perplexity: 319.744
 [2025-02-12 15:16:56,850 INFO] Train accuracy: 15.2171
 [2025-02-12 15:16:56,851 INFO] Sentences processed: 59331
@@ -198,6 +216,7 @@ Etape 3 : Traduction
 ```onmt_translate -model europarl/run/model_step_500.pt -src europarl/Europarl_test_500.en -output europarl/Europarl_res_500.fr -gpu 0 -verbose```
 
 On obtient : 
+
 `[2025-02-14 17:21:35,885 INFO] PRED SCORE: -1.3273, PRED PPL: 3.77 NB SENTENCES: 500
 Time w/o python interpreter load/terminate:  4.892900466918945`
 
@@ -212,26 +231,31 @@ II. Evaluation sur des corpus parallèles en formes fléchies à large échelle
 1. Réalisation des expérimentations sur deux corpus parallèles pour le couple de langues anglais-français.
 
 On récupère les textes Europarl et Emea .txt sur : 
+
 `https://opus.nlpl.eu/Europarl/fr&en/v8/Europarl
 https://opus.nlpl.eu/EMEA/fr&en/v3/EMEA `
 
 On commence par utiliser le script script/decoupage.py afin de suivre les indications suivantes : 
 
 Corpus d’apprentissage (TRAIN ) : 
+
 - 100K (Europarl) : Europarl_train_100k.en, Europarl_train_100k.fr ➔ Il faut prendre les 100 000 premières phrases du corpus.
 - 10K (Emea) : Emea_train_10k.en, Emea_train_10k.fr ➔ Il faut prendre les 10 000 premières phrases du corpus.
 
 Corpus de développement (DEV ) : 
+
 - Europarl_dev_3750.en ➔ Il faut prendre 3750 phrases à partir du corpus Europarl en commençant par la phrase au rang 100 001
 - Europarl_dev_3750.fr ➔ Il faut prendre 3750 phrases à partir du corpus Europarl en commençant par la phrase au rang 100 001
 
 Corpus de test (TEST ) :
+
 - Europarl : Europarl_test_500.en, Europarl_test_500.fr ➔ Il faut prendre 500 phrases à partir du corpus Europarl en commençant par la phrase au rang 103751
 - Emea : Emea_test_500.en, Emea_test_500.fr ➔ Il faut prendre 500 phrases à partir du corpus Emea en commençant par la phrase au rang 10001
 
 ```python script/decoupage.py```
 
 Ensuite on recommence les même étapes avec les scripts de mosesdecoder afin de tokeniser et de nettoyer les corpus : 
+
 Tokenisation : 
 ```
 mosesdecoder/scripts/tokenizer/tokenizer.perl -l en < Europarl_train_100k.en > Europarl_train_100k.tok.en
@@ -303,7 +327,8 @@ On commence avec la run n°1 en utilisant Europarl_train_100K pour l’apprentis
 
 ```onmt_build_vocab -config formes_flechies1.yaml -n_sample 100000```
 
-On obtient : 
+On obtient :
+
 `
 95013 europarl/Europarl_train_100k.tok.true.clean.en
 Corpus corpus_1's weight should be given. We default it to 1 for you.
@@ -315,7 +340,8 @@ Corpus corpus_1's weight should be given. We default it to 1 for you.
 
 ```onmt_train -config formes_flechies1.yaml```
 
-On obtient : 
+On obtient :
+
 `
 took: 19.427539110183716 s.
 [2025-02-23 14:03:35,973 INFO] Train perplexity: 69.9261
