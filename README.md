@@ -93,18 +93,6 @@ On obtient :
 MTed 1st sentence: In der <unk> der <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
 BLEU:  0.081308593710109576`
 
-Le score BLEU obtenu est vraiment faible comparé au tableau ci-dessous : 
-
-Score BLEU	Interprétation
-< 10	Traductions presque inutiles
-10 à 19	L'idée générale est difficilement compréhensible
-20 à 29	L'idée générale apparaît clairement, mais le texte comporte de nombreuses erreurs grammaticales
-30 à 40	Résultats compréhensibles à traductions correctes
-40 à 50	Traductions de haute qualité
-50 à 60	Traductions de très haute qualité, adéquates et fluides
-> 60	Qualité souvent meilleure que celle d'une traduction humaine
-Utilisation du moteur OpenNMT sur les corpus TRAIN, DEV et TEST
-
 2. Utilisation du moteur Open NMT sur les corpus TRAIN, DEV et TEST
 
 On dispose de trois corpus différents : 
