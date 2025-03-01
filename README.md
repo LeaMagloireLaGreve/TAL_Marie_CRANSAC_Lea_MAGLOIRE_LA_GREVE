@@ -302,6 +302,7 @@ mosesdecoder/scripts/training/clean-corpus-n.perl Emea_test_500.tok.true fr en E
 ```
 
 English : 
+
 `
 Europarl_train_100k.tok.true.clean.en (95013 lignes avec la commande wc -l)
 `
@@ -309,29 +310,37 @@ Europarl_train_100k.tok.true.clean.en (95013 lignes avec la commande wc -l)
 `
 Europarl_dev_3750.tok.true.clean.en (3622 lignes avec la commande wc -l)
 `
+
 `
 Europarl_test2_500.tok.true.clean.en (500 lignes avec la commande wc -l)
 `
+
 `
 Emea_train_10k.tok.true.clean.en (8612 lignes avec la commande wc -l)
 `
+
 `
 Emea_test_500.tok.true.clean.en (500 lignes avec la commande wc -l)
 `
 
 French : 
+
 `
 Europarl_train_100k.tok.true.clean.fr (95013 lignes avec la commande wc -l)
 `
+
 `
 Europarl_dev_3750.tok.true.clean.fr (3622 lignes avec la commande wc -l)
 `
+
 `
 Europarl_test2_500.tok.true.clean.fr (500 lignes avec la commande wc -l)
 `
+
 `
 Emea_train_10k.tok.true.clean.fr (8612 lignes avec la commande wc -l)
 `
+
 `
 Emea_test_500.tok.true.clean.fr (500 lignes avec la commande wc -l)
 `
