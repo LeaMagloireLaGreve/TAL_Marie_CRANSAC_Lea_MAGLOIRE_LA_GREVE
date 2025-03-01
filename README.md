@@ -9,9 +9,9 @@ I. Expérimentation
 a. Création de l'environnement virtuel
 On crée un environnement virtuel avec Anaconda avec la commande : 
 
-conda create --name env_opennmt python=3.9
+'conda create --name env_opennmt python=3.9
 conda init
-conda activate env_opennmt
+conda activate env_opennmt'
 
 Ensuite on installe les dépendances avec les commandes : 
 
