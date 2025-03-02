@@ -426,22 +426,31 @@ Ensuite nous calculons le score BLEU pour chaque corpus.
 Calcul du score BLEU pour le corpus du domaine :
 
 ```
-python script/compute-bleu.py europarl/Europarl_test2_500.tok.true.clean.fr formes_flechies1/pred_domaine.txt
+!cat formes_flechies1/pred_domaine.txt | mosesdecoder/scripts/generic/multi-bleu.perl europarl/Europarl_test_500.tok.true.clean.fr
 ```
 
 `
-BLEU :  25,82940209302392039%
+BLEU = 0.55, 12.3/1.4/0.1/0.1 (BP=0.855, ratio=0.864, hyp_len=10341, ref_len=11965)
 `
 
 Calcul du score BLEU pour le corpus hors-domaine :
 
 ```
-python script//compute-bleu.py EMEA/Emea_test_500.tok.true.clean.fr formes_flechies1/pred_hors_domaine.txt
+!cat formes_flechies1/pred_hors_domaine.txt | mosesdecoder/scripts/generic/multi-bleu.perl EMEA/Emea_test_500.tok.true.clean.fr
 ```
 
 `
 BLEU :  0.127029399330393927%
 `
+
+Le score BLEU (Bilingual Evaluation Understudy) varie de 0 à 1.
+
+0 signifie que la traduction générée n'a aucune correspondance avec la traduction de référence, c'est-à-dire que les n-grams (unigrammes, bigrammes, etc.) dans la traduction générée ne se retrouvent pas dans les traductions de référence.
+1 signifie que la traduction générée est exactement identique à la traduction de référence, avec une correspondance parfaite pour tous les n-grams.
+
+- Score BLEU ≈ 0.3 - 0.5 : Une traduction correcte mais imparfaite, qui peut encore contenir des erreurs de formulation ou des incohérences.
+- Score BLEU ≈ 0.6 - 0.7 : Une traduction de bonne qualité, généralement fluide et proche de la traduction de référence.
+- Score BLEU ≈ 0.8 - 1.0 : Une traduction quasiment parfaite, bien que des différences subtiles entre la traduction générée et la référence puissent exister.
 
 Ces résultats montrent que le modèle formé uniquement avec Europarl (run n°1) offre de meilleures performances pour le domaine général (BLEU = 25,82), mais il est largement sous-performant pour le corpus hors-domaine (BLEU = 0,12). Au contraire, l’ajout de EMEA dans la run n°2 améliore considérablement la performance pour les données hors-domaine (BLEU = 69,17), mais au prix de la perte de qualité sur le domaine général (BLEU = 14,36).
 
