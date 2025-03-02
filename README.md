@@ -430,7 +430,7 @@ Calcul du score BLEU pour le corpus du domaine :
 ```
 
 `
-BLEU = 0.55, 12.3/1.4/0.1/0.1 (BP=0.855, ratio=0.864, hyp_len=10341, ref_len=11965)
+BLEU = 18,67, 12.3/1.4/0.1/0.1 (BP=0.855, ratio=0.864, hyp_len=10341, ref_len=11965)
 `
 
 Calcul du score BLEU pour le corpus hors-domaine :
@@ -440,7 +440,7 @@ Calcul du score BLEU pour le corpus hors-domaine :
 ```
 
 `
-BLEU :  0.127029399330393927%
+BLEU = 0.12, 12.3/1.4/0.1/0.1 (BP=0.855, ratio=0.864, hyp_len=10341, ref_len=11965)
 `
 
 Le score BLEU (Bilingual Evaluation Understudy) varie de 0 à 1.
