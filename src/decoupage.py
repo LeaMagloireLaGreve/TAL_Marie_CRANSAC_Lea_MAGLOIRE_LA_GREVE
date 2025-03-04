@@ -1,4 +1,4 @@
-
+# Read and output in another file, part of the lines of one file
 def extract_first_n_sentences(input_file, output_file, n, start=0):
     with open(input_file, "r", encoding="utf-8") as infile, open(output_file, "w", encoding="utf-8") as outfile:
         for i, line in enumerate(infile):
